@@ -1,0 +1,11 @@
+# Node
+/node_modules
+
+# Testing
+/coverage
+
+# Production
+/build
+
+# Environment
+.env
