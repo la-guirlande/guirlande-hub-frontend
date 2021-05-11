@@ -1,5 +1,9 @@
 import { FC } from 'react';
+import LandingPage from './pages/LandingPage/landing-page';
 
-export const App: FC = () => (
-  <h1 className="text-red-500 font-bold">Hello World</h1>
-);
+export const App: FC = () => {
+  return (
+  <div>
+    <LandingPage isValid={true}/>
+  </div>)
+};
