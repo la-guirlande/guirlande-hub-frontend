@@ -45,7 +45,7 @@ export const useQuery = <R extends Response>(): Query<R> => {
       handleResponse(res);
       return res.data;
     } catch (err) {
-      throw (err as AxiosError<ErrorResponse>).response.data;
+      throw handleError(err as AxiosError<ErrorResponse>);
     }
   }
 
@@ -109,12 +109,12 @@ export const useQuery = <R extends Response>(): Query<R> => {
   }
 
   function handleError(err: AxiosError<ErrorResponse>) {
-    setCode(err.response?.status);
+    setCode(err.response?.status || 500);
     setStatus(Status.ERROR);
     if (err.message === 'Network Error') {
       return { errors: [{ error: 'network_error', error_description: 'Could not connect to server' }] } as ErrorResponse;
     } else {
-      return err.response.data;
+      return err.response?.data;
     }
   }
 

@@ -33,7 +33,6 @@ export const LoginForm: FC<LoginFormProps> = ({ loading, onSubmit }) => {
   const passwordRegister = register('password', {
     required: { value: true, message: 'Password is required' }
   });
-  console.log(emailRegister)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
