@@ -26,9 +26,9 @@ export const AuthenticationContainer: FC = () => {
     } catch(err) {
       alerts.push(
         <Alert header="Could not login" variant="error" timeout={10000}>
-          <ul>
+          <ul className="px-5">
             {(err as ErrorResponse).errors.map((error, i) => (
-              <li key={i}>{error.error_description}</li>
+              <li key={i} className="list-disc">{error.error_description}</li>
             ))}
           </ul>
         </Alert>
