@@ -25,10 +25,10 @@ export const AuthenticationContainer: FC = () => {
       setAuthUser(userRes.user);
     } catch(err) {
       alerts.push(
-        <Alert header="Could not login" timeout={10000}>
+        <Alert header="Could not login" variant="error" timeout={10000}>
           <ul>
             {(err as ErrorResponse).errors.map((error, i) => (
-              <li key={i}>[{error.error}] {error.error_description}</li>
+              <li key={i}>{error.error_description}</li>
             ))}
           </ul>
         </Alert>
