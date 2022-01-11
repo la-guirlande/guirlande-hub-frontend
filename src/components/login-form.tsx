@@ -33,21 +33,20 @@ export const LoginForm: FC<LoginFormProps> = ({ loading, onSubmit }) => {
   const passwordRegister = register('password', {
     required: { value: true, message: 'Password is required' }
   });
-  console.log(emailRegister)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-2">
         <div className="flex flex-col gap-1">
-          <Input type="text" placeholder="Email" {...emailRegister} />
+          <Input type="text" placeholder="Email" variant="primary" {...emailRegister} />
           {errors.email && <small className="text-red-500">{errors.email.message}</small>}
         </div>
         <div className="flex flex-col gap-1">
-          <Input type="password" placeholder="Password" {...passwordRegister} />
+          <Input type="password" placeholder="Password" variant="primary" {...passwordRegister} />
           {errors.password && <small className="text-red-500">{errors.password.message}</small>}
         </div>
         <Button type="submit" variant="primary" disabled={loading}>
-          { loading ? <LoadingIcon className="" /> : 'Login' }
+          { loading ? <LoadingIcon /> : 'Login' }
         </Button>
       </div>
     </form>
