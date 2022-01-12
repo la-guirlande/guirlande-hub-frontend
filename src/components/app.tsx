@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { AlertsContextProvider } from '../contexts/alerts-context';
 import { AuthenticationContextProvider } from '../contexts/authentication-context';
-import { AuthenticationContainer } from './authentication-container';
+import { Router } from './router';
 
 /**
  * Application component.
@@ -9,7 +9,7 @@ import { AuthenticationContainer } from './authentication-container';
 export const App: FC = () => (
   <AlertsContextProvider>
     <AuthenticationContextProvider>
-      <AuthenticationContainer />
+      <Router />
     </AuthenticationContextProvider>
   </AlertsContextProvider>
 );
