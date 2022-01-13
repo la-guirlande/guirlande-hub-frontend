@@ -1,4 +1,6 @@
-import { createContext, FC, useState } from 'react';
+import { createContext, FC, useEffect, useState } from 'react';
+import { useQuery } from '../hooks/query-hook';
+import { Endpoint, UserResponse } from '../utils/api';
 import { User } from '../utils/data';
 
 /**
@@ -22,6 +24,14 @@ AuthenticationContext.displayName = 'Authentication';
  */
 export const AuthenticationContextProvider: FC = ({ children }) => {
   const [authUser, setAuthUser] = useState<User>(null);
+  const userQuery = useQuery<UserResponse>({ auth: true, autoReconnect: false });
+
+  useEffect(() => {
+    userQuery.get(Endpoint.USERS_INFO)
+      .then(res => setAuthUser(res.user))
+      .catch(err => console.error('Could not authenticate :', err));
+  }, []);
+
   return (
     <AuthenticationContext.Provider value={{ authUser, setAuthUser }}>
       {children}
