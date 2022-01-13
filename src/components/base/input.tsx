@@ -17,7 +17,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({ className, vari
     className,
     'px-2 py-1.5',
     'rounded-sm',
-    `outline outline-1 outline-${variant}`
+    `outline outline-1 outline-${variant}`,
+    'text-black'
   )} {...props} />
 ));
 
