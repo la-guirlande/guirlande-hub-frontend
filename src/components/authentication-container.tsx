@@ -1,6 +1,6 @@
 import { FC, useContext } from 'react';
+import { AlertsContext } from '../contexts/alerts-context';
 import { AuthenticationContext } from '../contexts/authentication-context';
-import { useAlerts } from '../hooks/alerts-hook';
 import { Status, useQuery } from '../hooks/query-hook';
 import { Endpoint, ErrorResponse, RefreshTokenResponse, UserResponse } from '../utils/api';
 import { Key } from '../utils/local-storage';
@@ -12,9 +12,9 @@ import { LoginForm, LoginFormData } from './login-form';
  */
 export const AuthenticationContainer: FC = () => {
   const { setAuthUser } = useContext(AuthenticationContext);
+  const alerts = useContext(AlertsContext);
   const refreshTokenQuery = useQuery<RefreshTokenResponse>();
   const userQuery = useQuery<UserResponse>();
-  const alerts = useAlerts();
 
   const handleLogin = async ({ email, password }: LoginFormData) => {
     try {
@@ -25,7 +25,7 @@ export const AuthenticationContainer: FC = () => {
       setAuthUser(userRes.user);
     } catch(err) {
       alerts.push(
-        <Alert header="Could not login" variant="error" timeout={10000}>
+        <Alert header="Could not login" variant="error">
           <ul className="px-5">
             {(err as ErrorResponse).errors.map((error, i) => (
               <li key={i} className="list-disc">{error.error_description}</li>
@@ -37,7 +37,7 @@ export const AuthenticationContainer: FC = () => {
   }
   
   return (
-    <div className="m-5 w-1/2">
+    <div className="p-5 w-1/2">
       <LoginForm loading={refreshTokenQuery.status === Status.IN_PROGRESS} onSubmit={handleLogin} />
     </div>
   );

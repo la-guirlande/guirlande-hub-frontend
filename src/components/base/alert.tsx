@@ -1,12 +1,11 @@
 import classNames from 'classnames';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { VariantProps } from '../../utils/base-props';
 
 /**
  * Alert props.
  */
 interface AlertProps extends VariantProps {
-  timeout?: number;
   header?: string;
 }
 
@@ -17,13 +16,8 @@ interface AlertProps extends VariantProps {
  * 
  * To use the alerts system, see the `Alert` hook.
  */
-export const Alert: FC<AlertProps> = ({ variant, timeout, header, children }) => {
-  const [visible, setVisible] = useState<boolean>(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setVisible(false), timeout);
-    return () => clearTimeout(timer);
-  }, []);
+export const Alert: FC<AlertProps> = ({ variant, header, children }) => {
+  const [visible, setVisible] = useState(true);
 
   return visible ? (
     <div className={classNames(
@@ -48,6 +42,5 @@ export const Alert: FC<AlertProps> = ({ variant, timeout, header, children }) =>
 
 Alert.defaultProps = {
   variant: 'primary',
-  header: '',
-  timeout: 10000
+  header: ''
 }
