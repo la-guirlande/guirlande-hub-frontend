@@ -46,7 +46,7 @@ export const LoginForm: FC<LoginFormProps> = ({ loading, onSubmit }) => {
           {errors.password && <small className="text-red-500">{errors.password.message}</small>}
         </div>
         <Button type="submit" variant="primary" disabled={loading}>
-          { loading ? <LoadingAnimatedIcon width="12" /> : 'Login' }
+          { loading ? <LoadingAnimatedIcon width="24" height="24" /> : 'Login' }
         </Button>
       </div>
     </form>
