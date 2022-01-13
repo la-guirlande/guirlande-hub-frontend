@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
-import { ReactComponent as LoadingIcon } from '../assets/loading24.svg';
+import { LoadingAnimatedIcon } from '../utils/icons';
 import { Button } from './base/button';
 import { Input } from './base/input';
 
@@ -46,7 +46,7 @@ export const LoginForm: FC<LoginFormProps> = ({ loading, onSubmit }) => {
           {errors.password && <small className="text-red-500">{errors.password.message}</small>}
         </div>
         <Button type="submit" variant="primary" disabled={loading}>
-          { loading ? <LoadingIcon /> : 'Login' }
+          { loading ? <LoadingAnimatedIcon width="12" /> : 'Login' }
         </Button>
       </div>
     </form>
