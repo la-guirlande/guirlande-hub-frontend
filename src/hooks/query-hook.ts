@@ -18,6 +18,14 @@ export type Query<R extends Response> = {
 }
 
 /**
+ * Query options.
+ */
+export interface QueryOptions {
+  auth?: boolean;
+  autoReconnect?: boolean;
+}
+
+/**
  * Status enumeration.
  */
 export enum Status {
@@ -32,24 +40,25 @@ export enum Status {
  * 
  * This hook can make API calls and returns the response data.
  * 
+ * @param options Query options
  * @returns Query
  */
-export const useQuery = <R extends Response>(auth = false): Query<R> => {
+export const useQuery = <R extends Response>(options: QueryOptions = { auth: false, autoReconnect: true }): Query<R> => {
   const [status, setStatus] = useState<Status>(Status.INIT);
   const [code, setCode] = useState(0);
 
   const get = async (url: string, config?: AxiosRequestConfig) => {
     setStatus(Status.IN_PROGRESS);
     try {
-      const res = await handleQuery('GET', url, null, auth ? setAuthHeader(config) : config);
+      const res = await handleQuery('GET', url, null, options.auth ? setAuthHeader(config) : config);
       handleResponse(res);
       return res.data;
     } catch (err) {
-      if ((err as AxiosError<ErrorResponse>).response.data.errors[0].error === 'access_denied' && localStorage.getItem(Key.REFRESH_TOKEN)) {
+      if (options.autoReconnect && (err as AxiosError<ErrorResponse>).response.data.errors[0].error === 'access_denied' && localStorage.getItem(Key.REFRESH_TOKEN)) {
         console.log('Trying to auto-connect with refresh token');
         try {
           await reconnect();
-          const res = await handleQuery('GET', url, null, auth ? setAuthHeader(config) : config);
+          const res = await handleQuery('GET', url, null, options.auth ? setAuthHeader(config) : config);
           handleResponse(res);
           return res.data;
         } catch (err) {
@@ -63,15 +72,15 @@ export const useQuery = <R extends Response>(auth = false): Query<R> => {
   const post = async <B>(url: string, body: B, config?: AxiosRequestConfig) => {
     setStatus(Status.IN_PROGRESS);
     try {
-      const res = await handleQuery<R, B>('POST', url, body, auth ? setAuthHeader(config) : config);
+      const res = await handleQuery<R, B>('POST', url, body, options.auth ? setAuthHeader(config) : config);
       handleResponse(res);
       return res.data;
     } catch (err) {
-      if ((err as AxiosError<ErrorResponse>).response.data.errors[0].error === 'access_denied' && localStorage.getItem(Key.REFRESH_TOKEN)) {
+      if (options.autoReconnect && (err as AxiosError<ErrorResponse>).response.data.errors[0].error === 'access_denied' && localStorage.getItem(Key.REFRESH_TOKEN)) {
         console.log('Trying to auto-connect with refresh token');
         try {
           await reconnect();
-          const res = await handleQuery<R, B>('POST', url, body, auth ? setAuthHeader(config) : config);
+          const res = await handleQuery<R, B>('POST', url, body, options.auth ? setAuthHeader(config) : config);
           handleResponse(res);
           return res.data;
         } catch (err) {
@@ -85,15 +94,15 @@ export const useQuery = <R extends Response>(auth = false): Query<R> => {
   const put = async <B>(url: string, body: B, config?: AxiosRequestConfig) => {
     setStatus(Status.IN_PROGRESS);
     try {
-      const res = await handleQuery<R, B>('PUT', url, body, auth ? setAuthHeader(config) : config);
+      const res = await handleQuery<R, B>('PUT', url, body, options.auth ? setAuthHeader(config) : config);
       handleResponse(res);
       return res.data;
     } catch (err) {
-      if ((err as AxiosError<ErrorResponse>).response.data.errors[0].error === 'access_denied' && localStorage.getItem(Key.REFRESH_TOKEN)) {
+      if (options.autoReconnect && (err as AxiosError<ErrorResponse>).response.data.errors[0].error === 'access_denied' && localStorage.getItem(Key.REFRESH_TOKEN)) {
         console.log('Trying to auto-connect with refresh token');
         try {
           await reconnect();
-          const res = await handleQuery<R, B>('PUT', url, body, auth ? setAuthHeader(config) : config);
+          const res = await handleQuery<R, B>('PUT', url, body, options.auth ? setAuthHeader(config) : config);
           handleResponse(res);
           return res.data;
         } catch (err) {
@@ -107,15 +116,15 @@ export const useQuery = <R extends Response>(auth = false): Query<R> => {
   const patch = async <B>(url: string, body: B, config?: AxiosRequestConfig) => {
     setStatus(Status.IN_PROGRESS);
     try {
-      const res = await handleQuery<R, B>('PATCH', url, body, auth ? setAuthHeader(config) : config);
+      const res = await handleQuery<R, B>('PATCH', url, body, options.auth ? setAuthHeader(config) : config);
       handleResponse(res);
       return res.data;
     } catch (err) {
-      if ((err as AxiosError<ErrorResponse>).response.data.errors[0].error === 'access_denied' && localStorage.getItem(Key.REFRESH_TOKEN)) {
+      if (options.autoReconnect && (err as AxiosError<ErrorResponse>).response.data.errors[0].error === 'access_denied' && localStorage.getItem(Key.REFRESH_TOKEN)) {
         console.log('Trying to auto-connect with refresh token');
         try {
           await reconnect();
-          const res = await handleQuery<R, B>('PATCH', url, body, auth ? setAuthHeader(config) : config);
+          const res = await handleQuery<R, B>('PATCH', url, body, options.auth ? setAuthHeader(config) : config);
           handleResponse(res);
           return res.data;
         } catch (err) {
@@ -129,15 +138,15 @@ export const useQuery = <R extends Response>(auth = false): Query<R> => {
   const del = async (url: string, config?: AxiosRequestConfig) => {
     setStatus(Status.IN_PROGRESS);
     try {
-      const res = await handleQuery('DELETE', url, null, auth ? setAuthHeader(config) : config);
+      const res = await handleQuery('DELETE', url, null, options.auth ? setAuthHeader(config) : config);
       handleResponse(res);
       return res.data;
     } catch (err) {
-      if ((err as AxiosError<ErrorResponse>).response.data.errors[0].error === 'access_denied' && localStorage.getItem(Key.REFRESH_TOKEN)) {
+      if (options.autoReconnect && (err as AxiosError<ErrorResponse>).response.data.errors[0].error === 'access_denied' && localStorage.getItem(Key.REFRESH_TOKEN)) {
         console.log('Trying to auto-connect with refresh token');
         try {
           await reconnect();
-          const res = await handleQuery('DELETE', url, null, auth ? setAuthHeader(config) : config);
+          const res = await handleQuery('DELETE', url, null, options.auth ? setAuthHeader(config) : config);
           handleResponse(res);
           return res.data;
         } catch (err) {
@@ -153,8 +162,12 @@ export const useQuery = <R extends Response>(auth = false): Query<R> => {
     setCode(0);
   }
 
-  function setAuthHeader(config: AxiosRequestConfig) {
-    return { ...config, Headers: { Authorization: `Bearer ${localStorage.getItem(Key.ACCESS_TOKEN)}` } };
+  function setAuthHeader(config: AxiosRequestConfig = {}) {
+    const accessToken = localStorage.getItem(Key.ACCESS_TOKEN);
+    if (accessToken) {
+      return { ...config, headers: { Authorization: `Bearer ${accessToken}` } };
+    }
+    return config;
   }
 
   async function handleQuery<RR = R, B = unknown>(method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE', url: string, body?: B, config?: AxiosRequestConfig) {
