@@ -4,6 +4,7 @@ import { AuthenticationContext } from '../contexts/authentication-context';
 import { DashboardPage } from '../pages/dashboard/dashboard';
 import { HomePage } from '../pages/home';
 import { LogoutPage } from '../pages/logout';
+import { SettingsPage } from '../pages/settings';
 
 /**
  * Router component.
@@ -18,6 +19,7 @@ export const Router: FC = () => {
       <Routes>
         <Route index element={<h1>Home</h1>} />
         <Route path="dashboard/*" element={<DashboardPage />} />
+        <Route path="settings" element={<SettingsPage />} />
         <Route path="logout" element={<LogoutPage />} />
         <Route path="*" element={<h1>Not found</h1>} />
       </Routes>
