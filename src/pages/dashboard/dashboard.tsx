@@ -1,6 +1,8 @@
 import { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { DashboardSidebar } from '../../components/dashboard/sidebar';
+import { ModulesPage } from './modules';
+import { OverviewPage } from './overview';
 
 /**
  * Dashboard page.
@@ -12,8 +14,8 @@ export const DashboardPage: FC = () => (
     </div>
     <div className="grow h-24 bg-red-300">
       <Routes>
-        <Route index element={<h1>General</h1>} />
-        <Route path="modules" element={<h1>Modules</h1>} />
+        <Route index element={<OverviewPage />} />
+        <Route path="modules" element={<ModulesPage />} />
         <Route path="*" element={<h1>Not found</h1>} />
       </Routes>
     </div>
